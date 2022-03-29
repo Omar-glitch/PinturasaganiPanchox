@@ -1,61 +1,72 @@
-window.addEventListener('load', ()=>{
-    const contenedorLoader = document.querySelector(".contenedor-loader");
-    contenedorLoader.style.opacity = 0;
-    contenedorLoader.style.visibility = "hidden";
-})  
-let btnMenu = document.querySelector('.icon');
-let menu = document.querySelector('.list-container')
+const btnMenu = document.querySelector('.icon i');
+const menu = document.querySelector('.list-container')
+const shadow = document.querySelector('#shadow');
 let containerMenu = document.querySelector('#header');
 let activador = true;
+
+const close_menu = () => {
+    btnMenu.classList.toggle('fa-times');
+    shadow.style.visibility = "hidden"; 
+    menu.style.top = "-25rem";
+    activador = true;
+}
+
+const open_menu = () => {
+    btnMenu.classList.toggle('fa-times');
+    shadow.style.visibility = "visible"; 
+    menu.style.top = "3.4375rem";
+    activador = false;
+}
+
 //Menu de navegacion animacion izquierda
 btnMenu.addEventListener('click', () =>{
-    document.querySelector('.icon i').classList.toggle('fa-times');
-    if(activador){
-        menu.style.top = "60px";
-        menu.style.transition = "0.5s";
-        activador=false;
-    }else{
-        menu.style.top = "-1000px";
-        menu.style.transition = "0.5s";
-        activador=true;
-    }
+    if(activador) open_menu();
+    else close_menu();
 });
+
+const click = (e) => {
+    if (btnMenu.contains(e.target)) return;
+    if (menu.contains(e.target)) return;
+    if (activador) return;
+    close_menu();
+}
+
+const resize = () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const less = width - (width / 7);
+
+    if (less > height) 
+        if (!activador) close_menu();
+}
+
+window.addEventListener('click', click);
+window.addEventListener('resize', resize);
+
 //El scroll
 let prevScrollPos = window.pageYOffset;
 let goTop = document.querySelector('.ir-arriba');
+
 window.onscroll = () =>{
     let currenScrollpPos = window.pageYOffset;
     // Mostrar Menu y ocultarlo
-    if(prevScrollPos > currenScrollpPos){
-        containerMenu.style.top = "0";
-        containerMenu.style.transition = "0.5s";
-    }else{
-        containerMenu.style.top = "-60px";
-        containerMenu.style.transition = "0.5s";
-    }
+    if(prevScrollPos > currenScrollpPos) containerMenu.style.top = "0";
+    else containerMenu.style.top = "-3.4375rem";
+    
     prevScrollPos = currenScrollpPos;
     //Mostrar y ocultar scroll estilos
     let arriba = window.pageYOffset;
-    if(arriba <= 600){
-        containerMenu.style.borderBottom = "3px solid #ff2e63";
-        goTop.style.right = '-100%';
-    }else{
-        containerMenu.style.borderBottom = "3px solid #ff2e63";
-        goTop.style.right = '30px';
-        goTop.style.transition = "0.5s";
-    }
+    if(arriba <= 600) goTop.style.right = '-100%';
+    else goTop.style.right = '1.25rem';
 }
+
 goTop.addEventListener('click', () => {
     //para safari la linea de abajo
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 });
+
 let bol = document.querySelectorAll('.list-container li a');
-bol.forEach( (element) => {
-    element.addEventListener('click', () => {
-       menu.style.top = "-1000px";
-       document.querySelector('.icon i').classList.remove('fa-times');
-       document.querySelector('.icon i').classList.add('fa-bars');
-       activador=true;
-    });
+bol.forEach((element) => {
+    element.addEventListener('click', close_menu);
 });
