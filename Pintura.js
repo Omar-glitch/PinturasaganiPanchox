@@ -1,7 +1,7 @@
 const btnMenu = document.querySelector('.icon i');
 const menu = document.querySelector('.list-container')
 const shadow = document.querySelector('#shadow');
-let containerMenu = document.querySelector('#header');
+const containerMenu = document.querySelector('#header');
 let activador = true;
 
 const close_menu = () => {
@@ -44,20 +44,23 @@ window.addEventListener('click', click);
 window.addEventListener('resize', resize);
 
 //El scroll
-let prevScrollPos = window.pageYOffset;
+let prevScrollPos = window.scrollY;
 let goTop = document.querySelector('.ir-arriba');
 
 window.onscroll = () =>{
-    let currenScrollpPos = window.pageYOffset;
+    let currenScrollpPos = window.scrollY;
     // Mostrar Menu y ocultarlo
     if(prevScrollPos > currenScrollpPos) containerMenu.style.top = "0";
     else containerMenu.style.top = "-3.4375rem";
     
     prevScrollPos = currenScrollpPos;
     //Mostrar y ocultar scroll estilos
-    let arriba = window.pageYOffset;
+    let arriba = window.scrollY;
     if(arriba <= 600) goTop.style.right = '-100%';
     else goTop.style.right = '1.25rem';
+
+    if (arriba > 30) containerMenu.style.background = "var(--white)";
+    else containerMenu.style.background = "transparent";
 }
 
 goTop.addEventListener('click', () => {

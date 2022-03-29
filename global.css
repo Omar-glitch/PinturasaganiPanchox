@@ -27,6 +27,15 @@ li {
     list-style: none;
 }
 
+a {
+    text-decoration: none;
+    outline: none;
+}
+
+a:is(:hover, :focus) {
+    touch-action: manipulation;
+}
+
 @media (min-width: 760px) and (min-height: 1000px) {html {font-size: 26px;}}
 @media (min-width: 800px) and (min-height: 1100px) {html {font-size: 28px;}}
 @media (min-width: 1000px) and (min-height: 1350px) {html {font-size: 32px;}}
